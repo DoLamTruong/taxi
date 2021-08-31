@@ -1,4 +1,4 @@
-package resources.accessingdatapostgressql;
+package resources.accessingdatapostgressql.database;
 
 public class DriverExeption extends RuntimeException{
     DriverExeption(int id) {

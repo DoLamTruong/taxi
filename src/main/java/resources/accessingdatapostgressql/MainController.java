@@ -37,7 +37,7 @@ public class MainController {
 
         this.res = 9;
         long h = h3.geoToH3(longtitude, latitude, res);
-        n.setH3index("'/x" + String.valueOf(h) + "',");
+        n.setH3index(h);
         locationRepository.save(n);
         return "Saved";
     }
@@ -70,13 +70,15 @@ public class MainController {
 //        }
 //        System.out.println(para);
         ArrayList<driverlocation> result = new ArrayList<driverlocation>();
-//        while (result.size() < 5) {
-            List<Long> para = temp.queryVal(temp.h3.geoToH3(lat,lotitude, 9));
-            for (Long i : para) {
-//                System.out.println(Arrays.toString(temp.longToBytes(i)));
-                result.addAll(locationRepository.findUserUsingLongLat(temp.longToBytes(i)));
-            }
-//        }
+        Long  h = temp.h3.geoToH3(lat,lotitude, 9);
+        while (result.size() < 5) {
+            result = locationRepository.findUserUsingLongLat(temp.queryVal(h));
+//            List<Long> para = temp.queryVal(temp.h3.geoToH3(lat,lotitude, 9));
+//            for (Long i : para) {
+////                System.out.println(Arrays.toString(temp.longToBytes(i)));
+//                result.addAll(locationRepository.findUserUsingLongLat(i));
+//            }
+        }
         return result;
     }
 }

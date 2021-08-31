@@ -12,8 +12,9 @@ public class driverlocation {
     private Integer id;
     private double longitude;
     private double latitude;
-    private String h3index;
+    private long h3index;
     private Integer driverid;
+    private  boolean active;
 
     public driverlocation(){}
 
@@ -25,7 +26,7 @@ public class driverlocation {
         return id;
     }
 
-    public String getH3index() {
+    public long getH3index() {
         return h3index;
     }
 
@@ -33,7 +34,7 @@ public class driverlocation {
         this.driverid = driverid;
     }
 
-    public void setH3index(String h3index) {
+    public void setH3index(long h3index) {
         this.h3index = h3index;
     }
 
