@@ -22,12 +22,20 @@ public class driverlocation {
         return driverid;
     }
 
-    public Integer getId() {
-        return id;
+//    public Integer getId() {
+//        return id;
+//    }
+
+//    public long getH3index() {
+//        return h3index;
+//    }
+
+    public double getLatitude() {
+        return latitude;
     }
 
-    public long getH3index() {
-        return h3index;
+    public double getLongitude() {
+        return longitude;
     }
 
     public void setDriverid(Integer driverid) {
@@ -44,5 +52,8 @@ public class driverlocation {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+    public String getLatLongString(){
+        return String.valueOf(longitude) + "," + String.valueOf(latitude);
     }
 }

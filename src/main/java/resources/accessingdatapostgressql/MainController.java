@@ -1,12 +1,14 @@
 package resources.accessingdatapostgressql;
 
 import com.uber.h3core.H3Core;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import resources.accessingdatapostgressql.database.LocationRepository;
 import resources.accessingdatapostgressql.database.driverlocation;
 import resources.accessingdatapostgressql.help.H3help;
+import resources.accessingdatapostgressql.openstreetmaphelp.osmController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,31 +56,27 @@ public class MainController {
     }
 
     @GetMapping(path="/driverId/{lat}/{lotitude}")
-    public @ResponseBody ArrayList<driverlocation> List(@PathVariable float lat, @PathVariable float lotitude) throws IOException {
+    public @ResponseBody String List(@PathVariable float lat, @PathVariable float lotitude) throws IOException, JSONException {
+        long start = System.currentTimeMillis();
         H3help temp = new H3help();
-        System.out.println(lotitude);
-        System.out.println(lat);
-        System.out.println(temp.h3.geoToH3(lat,lotitude, 9));
-//        long para = temp.h3.geoToH3(lotitude,lat,9);
-//        System.out.println(para);
-
-//        System.out.println(para);
-//        final String a = "/x618144247449124863";
-//        List<String> newList = new ArrayList<>(para.size());
-//        for (Long myInt : para) {
-//            newList.add("/x" + String.valueOf(myInt));
-//        }
-//        System.out.println(para);
-        ArrayList<driverlocation> result = new ArrayList<driverlocation>();
+        ArrayList<driverlocation> resultDB = new ArrayList<driverlocation>();
         Long  h = temp.h3.geoToH3(lat,lotitude, 9);
-        while (result.size() < 5) {
-            result = locationRepository.findUserUsingLongLat(temp.queryVal(h));
-//            List<Long> para = temp.queryVal(temp.h3.geoToH3(lat,lotitude, 9));
-//            for (Long i : para) {
-////                System.out.println(Arrays.toString(temp.longToBytes(i)));
-//                result.addAll(locationRepository.findUserUsingLongLat(i));
-//            }
+        for (int i = 0; i < 4 && resultDB.size() < 5; i++) {
+            resultDB = locationRepository.findUserUsingLongLat(temp.queryVal(h));
         }
-        return result;
+        osmController a = new osmController();
+        ArrayList<Integer> distance = a.getDistance(lat,lotitude,resultDB);
+        ArrayList<Integer> listID = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            listID.add(resultDB.get(distance.get(i)).getDriverid());
+        }
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
+        return timeElapsed + "\n" + listID;
     }
+//    @GetMapping(path="/testOSM/")
+//    public @ResponseBody float testosm() throws IOException, JSONException {
+//        osmController a = new osmController();
+//        return a.getDistance(102.375942f,19.496121f,102.640132f,19.477157f);
+//    }
 }
