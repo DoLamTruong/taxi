@@ -3,9 +3,6 @@ package resources.accessingdatapostgressql.openstreetmaphelp;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.web.client.RestTemplate;
 import resources.accessingdatapostgressql.database.driverlocation;
 
 import java.io.*;
@@ -41,12 +38,13 @@ public class osmController {
         for (driverlocation i : table){
             location.append(";").append(i.getLatLongString());
         }
-        String request = "http://router.project-osrm.org/table/v1/driving/"+long1 +","
+//        String request = "http://router.project-osrm.org/table/v1/driving/"+long1 +","
+//                + lat1 + location + "?sources=0";
+                String request = "http://20.205.161.180:5000/table/v1/driving/"+long1 +","
                 + lat1 + location + "?sources=0";
         JSONObject json = readJsonFromUrl(request);
 
         JSONArray arr = json.getJSONArray("durations").getJSONArray(0);
-        System.out.println(json.getJSONArray("durations"));
         ArrayList<Integer> resultID = new ArrayList<>();
         ArrayList<Double> result = new ArrayList<>();
         double temp = 0;

@@ -61,8 +61,11 @@ public class MainController {
         H3help temp = new H3help();
         ArrayList<driverlocation> resultDB = new ArrayList<driverlocation>();
         Long  h = temp.h3.geoToH3(lat,lotitude, 9);
-        for (int i = 0; i < 4 && resultDB.size() < 5; i++) {
+        for (int i = 0; i < 2 && resultDB.size() < 5; i++) {
             resultDB = locationRepository.findUserUsingLongLat(temp.queryVal(h));
+        }
+        if (resultDB.size() == 0){
+            return String.valueOf(System.currentTimeMillis() - start) + " Don't have Driver near you in around 5km";
         }
         osmController a = new osmController();
         ArrayList<Integer> distance = a.getDistance(lat,lotitude,resultDB);
