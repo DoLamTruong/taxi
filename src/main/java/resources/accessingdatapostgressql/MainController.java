@@ -94,6 +94,19 @@ public class MainController {
     @PostMapping(path="/update/{lat}/{lotitude}/{typeCar}/{id}")
     public @ResponseBody String UpdateDriver(@PathVariable float lat, @PathVariable float lotitude,@PathVariable int typeCar, @PathVariable int id)
             throws IOException, JSONException {
+        H3help temp = new H3help();
+        Long  h = temp.h3.geoToH3(lat,lotitude, 9);
+        switch (typeCar) {
+            case 1:
+                locationRepository.UpdateLongLat1(h,id);
+                break;
+            case 2:
+                locationRepository.UpdateLongLat2(h,id);
+                break;
+            case 3:
+                locationRepository.UpdateLongLat3(h,id);
+                break;
+        }
         return "oke";
     }
 //    @GetMapping(path="/testOSM/")

@@ -1,9 +1,11 @@
 package resources.accessingdatapostgressql.database;
 
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import resources.accessingdatapostgressql.database.driverlocation;
 
 import java.util.ArrayList;
@@ -25,4 +27,19 @@ public interface LocationRepository extends CrudRepository<driverlocation, Integ
     ArrayList<driverlocation> findUserUsingLongLat2(@Param("indices") Collection<Long> indices);
     @Query(value = "select * from driverlocation3 where h3index in :indices", nativeQuery = true)
     ArrayList<driverlocation> findUserUsingLongLat3(@Param("indices") Collection<Long> indices);
+
+    @Transactional
+    @Modifying
+    @Query(value ="UPDATE driverlocation1 SET h3index = :index WHERE driverid = :id", nativeQuery = true)
+    void UpdateLongLat1(@Param("index") Long h3, @Param("id") int id);
+
+    @Transactional
+    @Modifying
+    @Query(value ="UPDATE driverlocation2 SET h3index = :index WHERE driverid = :id", nativeQuery = true)
+    void UpdateLongLat2(@Param("index") Long h3, @Param("id") int id);
+
+    @Transactional
+    @Modifying
+    @Query(value ="UPDATE driverlocation3 SET h3index = :index WHERE driverid = :id", nativeQuery = true)
+    void UpdateLongLat3(@Param("index") Long h3, @Param("id") int id);
 }
