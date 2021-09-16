@@ -17,8 +17,12 @@ public interface LocationRepository extends CrudRepository<driverlocation, Integ
     ArrayList<driverlocation> findUserUsingId(int id);
 
 //    @Query(value = "select * from driverlocation where h3index = '/x618144247449124863'", nativeQuery = true)
-    @Query(value = "select * from driverlocation2 where h3index in :indices", nativeQuery = true)
+    @Query(value = "select * from driverlocation1 where h3index in :indices", nativeQuery = true)
 //    ArrayList<driverlocation> findUserUsingLongLat(@Param("indices")long indices);
-    ArrayList<driverlocation> findUserUsingLongLat(@Param("indices") Collection<Long> indices);
+    ArrayList<driverlocation> findUserUsingLongLat1(@Param("indices") Collection<Long> indices);
 //    (16.950750946350603, 105.79485839786565, '/x89416eb0137ffff',1)
+    @Query(value = "select * from driverlocation2 where h3index in :indices", nativeQuery = true)
+    ArrayList<driverlocation> findUserUsingLongLat2(@Param("indices") Collection<Long> indices);
+    @Query(value = "select * from driverlocation3 where h3index in :indices", nativeQuery = true)
+    ArrayList<driverlocation> findUserUsingLongLat3(@Param("indices") Collection<Long> indices);
 }

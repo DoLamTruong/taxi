@@ -55,14 +55,28 @@ public class MainController {
         return locationRepository.findUserUsingId(id);
     }
 
-    @GetMapping(path="/driverId/{lat}/{lotitude}")
-    public @ResponseBody String List(@PathVariable float lat, @PathVariable float lotitude) throws IOException, JSONException {
+    @GetMapping(path="/driverId/{lat}/{lotitude}/{typeCar}")
+    public @ResponseBody String ListId(@PathVariable float lat, @PathVariable float lotitude, @PathVariable int typeCar) throws IOException, JSONException {
         long start = System.currentTimeMillis();
         H3help temp = new H3help();
         ArrayList<driverlocation> resultDB = new ArrayList<driverlocation>();
         Long  h = temp.h3.geoToH3(lat,lotitude, 9);
-        for (int i = 0; i < 2 && resultDB.size() < 5; i++) {
-            resultDB = locationRepository.findUserUsingLongLat(temp.queryVal(h));
+        switch (typeCar) {
+            case 1:
+                for (int i = 0; i < 2 && resultDB.size() < 5; i++) {
+                    resultDB = locationRepository.findUserUsingLongLat1(temp.queryVal(h));
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 2 && resultDB.size() < 5; i++) {
+                    resultDB = locationRepository.findUserUsingLongLat2(temp.queryVal(h));
+                }
+                break;
+            case 3:
+                for (int i = 0; i < 2 && resultDB.size() < 5; i++) {
+                    resultDB = locationRepository.findUserUsingLongLat3(temp.queryVal(h));
+                }
+                break;
         }
         if (resultDB.size() == 0){
             return String.valueOf(System.currentTimeMillis() - start) + " Don't have Driver near you in around 5km";
@@ -76,6 +90,11 @@ public class MainController {
         long finish = System.currentTimeMillis();
         long timeElapsed = finish - start;
         return timeElapsed + "\n" + listID;
+    }
+    @PostMapping(path="/update/{lat}/{lotitude}/{typeCar}/{id}")
+    public @ResponseBody String UpdateDriver(@PathVariable float lat, @PathVariable float lotitude,@PathVariable int typeCar, @PathVariable int id)
+            throws IOException, JSONException {
+        return "oke";
     }
 //    @GetMapping(path="/testOSM/")
 //    public @ResponseBody float testosm() throws IOException, JSONException {

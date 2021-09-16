@@ -40,6 +40,7 @@ public class osmController {
         }
 //        String request = "http://router.project-osrm.org/table/v1/driving/"+long1 +","
 //                + lat1 + location + "?sources=0";
+//        long start = System.currentTimeMillis();
                 String request = "http://20.205.161.180:5000/table/v1/driving/"+long1 +","
                 + lat1 + location + "?sources=0";
         JSONObject json = readJsonFromUrl(request);
@@ -51,6 +52,11 @@ public class osmController {
         for (int i = 1; i < arr.length(); i++) {
             result.add(arr.getDouble(i));
         }
+
+//        long finish = System.currentTimeMillis();
+//        long timeElapsed = finish - start;
+//        System.out.print("Time in ms: " + timeElapsed + "\n");
+
         ArrayList<Double> resultcopy = new ArrayList<>(result);
         Collections.sort(result);
         for (int i = 0; i < 5; i++) {
