@@ -78,7 +78,7 @@ public class MainController {
                 }
                 break;
         }
-        if (resultDB.size() == 0){
+        if (resultDB.size() < 5){
             return String.valueOf(System.currentTimeMillis() - start) + " Don't have Driver near you in around 5km";
         }
         osmController a = new osmController();
